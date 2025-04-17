@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atrang Club, UEM Jaipur</title>
+    <link rel="icon" href="image/Atrang-removebg-preview.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Loading Animation */
+        #loading-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff3366;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Logo */
+        .logo-container {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 70px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 99;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 30px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            position: relative;
+            padding: 5px 3px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #ff3366;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ff3366;
+        }
+
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+
+        /* Carousel */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            margin-top: 0;
+            background-color: #000;
+        }
+
+        .list {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .item.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .welcome-to {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .title {
+            font-size: 80px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            color: #ff3366;
+            font-family: 'Montserrat', sans-serif;
+            opacity: 0;
+            transform: translateY(20px);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+            transition: color 2s ease;
+        }
+
+        .topic {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .buttons button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background-color: #ff3366;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buttons button:hover {
+            background-color: #e01f4c;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 51, 102, 0.3);
+        }
+
+        .buttons button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Thumbnail */
+        .thumbnail {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .thumbnail .item {
+            position: relative;
+            width: 150px;
+            height: 100px;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            visibility: visible;
+        }
+
+        .thumbnail .item.active {
+            opacity: 1;
+            transform: scale(1.1);
+            border: 3px solid #ff3366;
+        }
+
+        .thumbnail .item:hover {
+            opacity: 0.8;
+        }
+
+        .thumbnail .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail .item .content {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            transform: translateY(100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail .item:hover .content {
+            transform: translateY(0);
+        }
+
+        .thumbnail .item .title {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .thumbnail .item .description {
+            font-size: 12px;
+            color: #ccc;
+            display: none;
+        }
+
+        /* Arrows */
+        .arrows {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 30px;
+        }
+
+        .arrows button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrows button:hover {
+            background-color: rgba(255, 51, 102, 0.8);
+            border-color: #ff3366;
+            transform: scale(1.1);
+        }
+
+        /* Time indicator */
+        .time {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .time::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: #ff3366;
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+
+        /* Animated background particles */
+        #particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: rgba(255, 51, 102, 0.5);
+            border-radius: 50%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .title {
+                font-size: 60px;
+            }
+            .topic {
+                font-size: 22px;
+            }
+            .thumbnail {
+                gap: 10px;
+            }
+            .thumbnail .item {
+                width: 120px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 40px;
+            }
+            .topic {
+                font-size: 18px;
+            }
+            .welcome-to {
+                font-size: 20px;
+            }
+            .buttons button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            .thumbnail {
+                bottom: 30px;
+            }
+            .thumbnail .item {
+                width: 80px;
+                height: 60px;
+            }
+            .arrows button {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 32px;
+            }
+            .topic {
+                font-size: 16px;
+            }
+            .welcome-to {
+                font-size: 18px;
+            }
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .buttons button {
+                padding: 8px 16px;
+            }
+            .thumbnail {
+                gap: 5px;
+                bottom: 20px;
+            }
+            .thumbnail .item {
+                width: 60px;
+                height: 40px;
+            }
+            .logo {
+                width: 50px;
+            }
+            nav ul li {
+                margin: 0 8px;
+            }
+            nav ul li a {
+                font-size: 14px;
+            }
+        }
+
+        /* Smooth transitions */
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Button animation */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .btn-ripple:hover::after {
+            transform: scale(2);
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Animation -->
+    <div id="loading-animation">
+        <img src="image/loggo.png" alt="Atrang Logo" class="loading-logo" id="loading-logo">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Logo Container -->
+    <div class="logo-container">
+        <img src="image/loggo.png" alt="Atrang Logo" class="logo" id="main-logo">
+    </div>
+
+    <!-- Header Navigation -->
+    <header id="header">
+        <nav>
+            <ul>
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="activites.html" class="nav-link">Activities</a></li>
+                <li><a href="team.html" class="nav-link">Team</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Carousel -->
+    <div class="carousel">
+        <!-- List items -->
+        <div class="list">
+            <div class="item active">
+                <img src="image/img1.jpg">
+                <div class="content">
+                    <div id="random-text" class="welcome-to">WELCOME TO</div>
+                    <div class="title" id="atrang-title1">Atrang</div>
+                    <div class="topic">UEM Jaipur's Cultural Club</div>
+                    <div class="buttons">
+                        <button id="B1" class="btn-ripple"><i class="fab fa-instagram"></i> Instagram</button>
+                        <button id="B2" class="btn-ripple"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button id="B3" class="btn-ripple"><i class="fab fa-youtube"></i> YouTube</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img2.jpg">
+                <div class="content">
+                    <div id="random-text3" class="welcome-to">ようこそ</div>
+                    <div class="title" id="atrang-title2">Atrang</div>
+                    <div class="topic">UEM Jaipur's Cultural Club</div>
+                    <div class="buttons">
+                        <button id="BB1" class="btn-ripple"><i class="fab fa-instagram"></i> Instagram</button>
+                        <button id="BB2" class="btn-ripple"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button id="BB3" class="btn-ripple"><i class="fab fa-youtube"></i> YouTube</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img3.jpg">
+                <div class="content">
+                    <div id="random-text1" class="welcome-to">Bienvenue à</div>
+                    <div class="title" id="atrang-title3">Atrang</div>
+                    <div class="topic">UEM Jaipur's Cultural Club</div>
+                    <div class="buttons">
+                        <button id="BBB1" class="btn-ripple"><i class="fab fa-instagram"></i> Instagram</button>
+                        <button id="BBB2" class="btn-ripple"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button id="BBB3" class="btn-ripple"><i class="fab fa-youtube"></i> YouTube</button>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img src="image/img4.jpg">
+                <div class="content">
+                    <div id="random-text2" class="welcome-to">Добро пожаловать</div>
+                    <div class="title" id="atrang-title4">Atrang</div>
+                    <div class="topic">UEM Jaipur's Cultural Club</div>
+                    <div class="buttons">
+                        <button id="BBBB1" class="btn-ripple"><i class="fab fa-instagram"></i> Instagram</button>
+                        <button id="BBBB2" class="btn-ripple"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button id="BBBB3" class="btn-ripple"><i class="fab fa-youtube"></i> YouTube</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Thumbnails -->
+        <div class="thumbnail">
+            <div class="item active" data-index="0">
+                <img src="image/img1.jpg">
+                <div class="content">
+                    <div class="title">Coordinators</div>
+                    <div class="description">The Majestic Team of Atrang</div>
+                </div>
+            </div>
+            <div class="item" data-index="1">
+                <img src="image/img2.jpg">
+                <div class="content">
+                    <div class="title">Independence Day</div>
+                    <div class="description">The Participant Of Independence Day</div>
+                </div>
+            </div>
+            <div class="item" data-index="2">
+                <img src="image/img3.jpg">
+                <div class="content">
+                    <div class="title">Casual</div>
+                    <div class="description">Club Activities</div>
+                </div>
+            </div>
+            <div class="item" data-index="3">
+                <img src="image/img4.jpg">
+                <div class="content">
+                    <div class="title">Band Singing</div>
+                    <div class="description">15th August</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <div class="arrows">
+            <button id="prev"><i class="fas fa-chevron-left"></i></button>
+            <button id="next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        
+        <!-- Time Indicator -->
+        <div class="time"></div>
+    </div>
+
+    <script>
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Loading Animation
+            anime({
+                targets: '#loading-logo',
+                opacity: [0, 1],
+                scale: [0.5, 1],
+                duration: 1000,
+                easing: 'easeInOutQuad'
+            });
+
+            // Hide loading animation after full page load
+            window.addEventListener('load', function() {
+                anime({
+                    targets: '#loading-animation',
+                    opacity: [1, 0],
+                    duration: 800,
+                    easing: 'easeInOutQuad',
+                    complete: function() {
+                        document.getElementById('loading-animation').style.display = 'none';
+                        initCarouselAnimations();
+                    }
+                });
+            });
+
+            // Create particles
+            const particlesContainer = document.getElementById('particles');
+            const particlesCount = 50;
+            
+            for (let i = 0; i < particlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particlesContainer.appendChild(particle);
+                
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const opacity = Math.random() * 0.5 + 0.1;
+                
+                anime({
+                    targets: particle,
+                    width: size,
+                    height: size,
+                    left: posX,
+                    top: posY,
+                    opacity: opacity,
+                    backgroundColor: function() {
+                        const colors = ['rgba(255, 51, 102, 0.5)', 'rgba(255, 255, 255, 0.3)', 'rgba(51, 153, 255, 0.5)'];
+                        return colors[Math.floor(Math.random() * colors.length)];
+                    },
+                    duration: 0,
+                    complete: function() {
+                        animateParticle(particle);
+                    }
+                });
+            }
+
+            function animateParticle(particle) {
+                anime({
+                    targets: particle,
+                    left: Math.random() * window.innerWidth,
+                    top: Math.random() * window.innerHeight,
+                    opacity: [
+                        { value: Math.random() * 0.5 + 0.1, duration: 0 },
+                        { value: 0, duration: 1000 }
+                    ],
+                    scale: [1, 0],
+                    duration: function() { return Math.random() * 5000 + 3000; },
+                    easing: 'easeOutExpo',
+                    complete: function() {
+                        // Reset position and start again
+                        anime({
+                            targets: particle,
+                            left: Math.random() * window.innerWidth,
+                            top: Math.random() * window.innerHeight,
+                            opacity: Math.random() * 0.5 + 0.1,
+                            scale: 1,
+                            duration: 0,
+                            complete: function() {
+                                animateParticle(particle);
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Logo animation
+            anime({
+                targets: '#main-logo',
+                rotate: [
+                    { value: -10, duration: 1000, easing: 'easeInOutSine' },
+                    { value: 10, duration: 1000, easing: 'easeInOutSine' }
+                ],
+                loop: true,
+                direction: 'alternate',
+                scale: {
+                    value: 1.05,
+                    duration: 1000,
+                    easing: 'easeInOutQuad',
+                    direction: 'alternate',
+                },
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Nav links hover effect
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    anime({
+                        targets: this,
+                        color: '#ff3366',
+                        duration: 300,
+                        easing: 'easeInOutQuad'
+                    });
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    anime({
+                        targets: this,
+                        color: '#fff',
+                        duration: 300,
+                        easing: 'easeInOutQuad'
+                    });
+                });
+            });
+
+            // Carousel functionality
+            let currentIndex = 0;
+            const items = document.querySelectorAll('.list .item');
+            const thumbnailItems = document.querySelectorAll('.thumbnail .item');
+            const timeIndicator = document.querySelector('.time::before');
+            let slideInterval;
+            const slideDelay = 5000; // 5 seconds per slide
+
+            function showSlide(index) {
+                // Hide all slides
+                items.forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Show current slide
+                items[index].classList.add('active');
+                
+                // Update thumbnails
+                thumbnailItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                thumbnailItems[index].classList.add('active');
+
+                // Animate slide content
+                animateSlideContent(index);
+                
+                // Reset timer
+                if (timeIndicator) {
+                    anime({
+                        targets: '.time::before',
+                        width: ['0%', '100%'],
+                        duration: slideDelay,
+                        easing: 'linear'
+                    });
+                }
+
+                // Reset interval
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, slideDelay);
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % items.length;
+                showSlide(currentIndex);
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                showSlide(currentIndex);
+            }
+
+            // Initialize carousel
+            document.getElementById('next').addEventListener('click', nextSlide);
+            document.getElementById('prev').addEventListener('click', prevSlide);
+            
+            // Thumbnail click event
+            thumbnailItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    currentIndex = index;
+                    showSlide(currentIndex);
+                });
+            });
+
+            // Initialize time indicator
+            anime({
+                targets: '.time::before',
+                width: ['0%', '100%'],
+                duration: slideDelay,
+                easing: 'linear'
+            });
+            
+            // Start carousel
+            slideInterval = setInterval(nextSlide, slideDelay);
+
+            // Initialize carousel animations
+            function initCarouselAnimations() {
+                animateSlideContent(0);
+                startRandomTextGenerator();
+                startColorChanger();
+            }
+
+            // Animate slide content
+            function animateSlideContent(index) {
+                const currentSlide = items[index];
+                const welcomeText = currentSlide.querySelector('.welcome-to');
+                const title = currentSlide.querySelector('.title');
+                const topic = currentSlide.querySelector('.topic');
+                const buttons = currentSlide.querySelector('.buttons');
+
+                // Reset animations
+                anime.set([welcomeText, title, topic, buttons], {
+                    opacity: 0,
+                    translateY: 20
+                });
+
+                // Animate elements sequentially
+                anime.timeline({
+                    easing: 'easeOutExpo'
+                })
+                .add({
+                    targets: welcomeText,
+                    opacity: 1,
+                    translateY: 0,
+                    duration: 800
+                })
+                .add({
+                    targets: title,
+                    opacity: 1,
+                    translateY: 0,
+                    duration: 800
+                }, '-=400')
+                .add({
+                    targets: topic,
+                    opacity: 1,
+                    translateY: 0,
+                    duration: 800
+                }, '-=400')
+                .add({
+                    targets: buttons,
+                    opacity: 1,
+                    translateY: 0,
+                    duration: 800
+                }, '-=400');
+            }
+
+            // Random text generation for welcome text
+            function startRandomTextGenerator() {
+                // Array of welcome texts in different languages
+                const welcomeTexts = [
+                    "WELCOME TO", "स्वागत है", "BIENVENIDO A", "WILLKOMMEN ZU", 
+                    "BENVENUTO A", "어서 오십시오", "BEM-VINDO A", "ДОБРО ПОЖАЛОВАТЬ В", 
+                    "欢迎来到", "SELAMAT DATANG KE", "مرحبا بكم في", "καλώς ήρθατε στο",
+                    "HOŞ GELDİNİZ", "VELKOMMEN TIL", "TERVETULOA", "WELKOM BIJ",
+                    "VÄLKOMMEN TILL", "ようこそ", "WITAMY W", "VÍTEJTE V","স্বাগতম সবাইকে"
+                ];
+
+                // Get the welcome text elements
+                const welcomeElements = [
+                    document.getElementById('random-text'),
+                    document.getElementById('random-text1'),
+                    document.getElementById('random-text2'),
+                    document.getElementById('random-text3')
+                ];
+
+                // Generate random welcome text for each slide
+                function updateRandomText() {
+                    welcomeElements.forEach(el => {
+                        if (el) {
+                            const randomIndex = Math.floor(Math.random() * welcomeTexts.length);
+                            
+                            // Animate the text change
+                            anime({
+                                targets: el,
+                                opacity: [1, 0],
+                                translateY: [0, -10],
+                                duration: 500,
+                                easing: 'easeInQuad',
+                                complete: function() {
+                                    el.textContent = welcomeTexts[randomIndex];
+                                    anime({
+                                        targets: el,
+                                        opacity: [0, 1],
+                                        translateY: [10, 0],
+                                        duration: 500,
+                                        easing: 'easeOutQuad'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+
+                // Initial update
+                updateRandomText();
+                
+                // Update at intervals
+                setInterval(updateRandomText, 3000);
+            }
+
+            // Changing colors for Atrang title
+            function startColorChanger() {
+                const titleElements = [
+                    document.getElementById('atrang-title1'),
+                    document.getElementById('atrang-title2'),
+                    document.getElementById('atrang-title3'),
+                    document.getElementById('atrang-title3'),
+                    document.getElementById('atrang-title4')
+                ];
+
+                // Array of colors for the title
+                const colors = [
+                    '#ff3366', '#33ccff', '#ff9933', '#33ff99', 
+'#cc33ff', '#ffcc33', '#3399ff', '#ff3399',
+'#66ff66', '#ff6666', '#33cc33', '#cc3366',
+'#3366cc', '#66ccff', '#ccff33', '#ff33cc',
+'#ff6699', '#339966'
+
+                ];
+
+                // Change color of title
+                function updateColors() {
+                    titleElements.forEach(el => {
+                        if (el) {
+                            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                            
+                            anime({
+                                targets: el,
+                                color: randomColor,
+                                duration: 1500,
+                                easing: 'easeInOutQuad'
+                            });
+                        }
+                    });
+                }
+
+                // Initial color update
+                updateColors();
+                
+                // Update colors at intervals
+                setInterval(updateColors, 3000);
+            }
+
+            // Button click handlers
+            const socialButtons = [
+                document.getElementById('B1'), document.getElementById('B2'), document.getElementById('B3'),
+                document.getElementById('BB1'), document.getElementById('BB2'), document.getElementById('BB3'),
+                document.getElementById('BBB1'), document.getElementById('BBB2'), document.getElementById('BBB3'),
+                document.getElementById('BBBB1'), document.getElementById('BBBB2'), document.getElementById('BBBB3')
+            ];
+
+            // Instagram buttons
+            [document.getElementById('B1'), document.getElementById('BB1'), 
+             document.getElementById('BBB1'), document.getElementById('BBBB1')].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        window.open('https://www.instagram.com/atrang_uem/', '_blank');
+                    });
+                }
+            });
+
+            // WhatsApp buttons
+            [document.getElementById('B2'), document.getElementById('BB2'), 
+             document.getElementById('BBB2'), document.getElementById('BBBB2')].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        window.open('https://chat.whatsapp.com/JIKNadUQsPI0XdUIGCuHUh', '_blank');
+                    });
+                }
+            });
+
+            // YouTube buttons
+            [document.getElementById('B3'), document.getElementById('BB3'), 
+             document.getElementById('BBB3'), document.getElementById('BBBB3')].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        window.open('https://www.youtube.com/@atrangUEM', '_blank');
+                    });
+                }
+            });
+
+            // Button hover effects
+            socialButtons.forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('mouseenter', function() {
+                        anime({
+                            targets: this,
+                            scale: 1.1,
+                            duration: 300,
+                            easing: 'easeOutQuad'
+                        });
+                    });
+                    
+                    btn.addEventListener('mouseleave', function() {
+                        anime({
+                            targets: this,
+                            scale: 1,
+                            duration: 300,
+                            easing: 'easeOutQuad'
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
